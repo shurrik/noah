@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.eden.noah.dao.IArtifactDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  act_type actType,
+	  name name,
+	  path path,
+	  size size,
+	  creater_id createrId,
+	  creater_name createrName,
+	  updater_id updaterId,
+	  updater_name updaterName,
+	  create_date createDate,
+	  update_date updateDate
+    </sql>
+    
+    <sql id="Query_condition">
+      <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.actType!=null">
+			  	AND act_type Like '%${condition.actType}%'
+			  </if>
+              <if test="condition.name!=null">
+			  	AND name Like '%${condition.name}%'
+			  </if>
+              <if test="condition.path!=null">
+			  	AND path Like '%${condition.path}%'
+			  </if>
+              <if test="condition.size!=null">
+			  	AND size Like '%${condition.size}%'
+			  </if>
+              <if test="condition.createrId!=null">
+			  	AND creater_id Like '%${condition.createrId}%'
+			  </if>
+              <if test="condition.createrName!=null">
+			  	AND creater_name Like '%${condition.createrName}%'
+			  </if>
+              <if test="condition.updaterId!=null">
+			  	AND updater_id Like '%${condition.updaterId}%'
+			  </if>
+              <if test="condition.updaterName!=null">
+			  	AND updater_name Like '%${condition.updaterName}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+              <if test="condition.updateDate!=null">
+			  	AND update_date Like '%${condition.updateDate}%'
+			  </if>
+        </trim>
+    </sql>
+    
+    <insert id="insert" parameterType="Artifact">
+        INSERT INTO t_noah_artifact (
+	        id,
+		    act_type,
+		    name,
+		    path,
+		    size,
+		    creater_id,
+		    creater_name,
+		    updater_id,
+		    updater_name,
+		    create_date,
+		    update_date
+        ) VALUES (
+         	#{id},
+       		#{actType},
+       		#{name},
+       		#{path},
+       		#{size},
+       		#{createrId},
+       		#{createrName},
+       		#{updaterId},
+       		#{updaterName},
+       		sysdate(),
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="Artifact">
+        UPDATE t_noah_artifact
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="actType!=null">
+           act_type=#{actType},
+          </if>
+          <if test="name!=null">
+           name=#{name},
+          </if>
+          <if test="path!=null">
+           path=#{path},
+          </if>
+          <if test="size!=null">
+           size=#{size},
+          </if>
+          <if test="createrId!=null">
+           creater_id=#{createrId},
+          </if>
+          <if test="createrName!=null">
+           creater_name=#{createrName},
+          </if>
+          <if test="updaterId!=null">
+           updater_id=#{updaterId},
+          </if>
+          <if test="updaterName!=null">
+           updater_name=#{updaterName},
+          </if>
+          <if test="createDate!=null">
+           create_date=sysdate(),
+          </if>
+          <if test="updateDate!=null">
+           update_date=sysdate(),
+          </if>
+        </trim>
+        WHERE
+        id =#{id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_noah_artifact
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.actType!=null">        
+           act_type=#{map.actType},
+          </if>
+          <if test="map.name!=null">        
+           name=#{map.name},
+          </if>
+          <if test="map.path!=null">        
+           path=#{map.path},
+          </if>
+          <if test="map.size!=null">        
+           size=#{map.size},
+          </if>
+          <if test="map.createrId!=null">        
+           creater_id=#{map.createrId},
+          </if>
+          <if test="map.createrName!=null">        
+           creater_name=#{map.createrName},
+          </if>
+          <if test="map.updaterId!=null">        
+           updater_id=#{map.updaterId},
+          </if>
+          <if test="map.updaterName!=null">        
+           updater_name=#{map.updaterName},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=sysdate(),
+          </if>
+          <if test="map.updateDate!=null">        
+           update_date=sysdate(),
+          </if>
+        </trim>
+        WHERE
+       id = #{ map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_noah_artifact (
+             	id,
+			 	act_type,
+			 	name,
+			 	path,
+			 	size,
+			 	creater_id,
+			 	creater_name,
+			 	updater_id,
+			 	updater_name,
+			 	create_date,
+			 	update_date,
+        ) VALUES (
+              	#{map.id},
+		    	#{map.actType},
+		    	#{map.name},
+		    	#{map.path},
+		    	#{map.size},
+		    	#{map.createrId},
+		    	#{map.createrName},
+		    	#{map.updaterId},
+		    	#{map.updaterName},
+		    	sysdate(),
+		    	sysdate(),
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="Artifact">
+        UPDATE t_noah_artifact
+        <trim prefix="SET" suffixOverrides=","> 
+			    act_type=#{actType},
+			    name=#{name},
+			    path=#{path},
+			    size=#{size},
+			    creater_id=#{createrId},
+			    creater_name=#{createrName},
+			    updater_id=#{updaterId},
+			    updater_name=#{updaterName},
+			    create_date=sysdate(),
+			    update_date=sysdate(),
+        </trim>
+        WHERE
+        id =#{id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_noah_artifact
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_noah_artifact 
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>				        
+			<if test="map.actType!=null">
+				AND act_type = #{map.actType}
+			</if>				
+			<if test="map.name!=null">
+				AND name = #{map.name}
+			</if>				
+			<if test="map.path!=null">
+				AND path = #{map.path}
+			</if>				
+			<if test="map.size!=null">
+				AND size = #{map.size}
+			</if>				
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>				
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>				
+			<if test="map.updaterId!=null">
+				AND updater_id = #{map.updaterId}
+			</if>				
+			<if test="map.updaterName!=null">
+				AND updater_name = #{map.updaterName}
+			</if>				
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>				
+			<if test="map.updateDate!=null">
+				AND update_date = sysdate()
+			</if>				
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_noah_artifact WHERE
+        ${property}=#{value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact WHERE
+        ${property}=#{value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact WHERE
+       	${property} =#{value}
+    </select>
+
+    <select id="findAll" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+    </select>
+
+    <select id="queryPage" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+        <include refid="Query_condition" />    
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{id}%'
+			</if>
+			<if test="actType!=null">
+				AND act_type Like '%$ {condition.actType}%'
+			</if>
+			<if test="name!=null">
+				AND name Like '%$ {condition.name}%'
+			</if>
+			<if test="path!=null">
+				AND path Like '%$ {condition.path}%'
+			</if>
+			<if test="size!=null">
+				AND size Like '%$ {condition.size}%'
+			</if>
+			<if test="createrId!=null">
+				AND creater_id Like '%$ {condition.createrId}%'
+			</if>
+			<if test="createrName!=null">
+				AND creater_name Like '%$ {condition.createrName}%'
+			</if>
+			<if test="updaterId!=null">
+				AND updater_id Like '%$ {condition.updaterId}%'
+			</if>
+			<if test="updaterName!=null">
+				AND updater_name Like '%$ {condition.updaterName}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+			<if test="updateDate!=null">
+				AND update_date Like '%$ {condition.updateDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>
+			<if test="map.actType!=null">
+				AND act_type = #{map.actType}
+			</if>
+			<if test="map.name!=null">
+				AND name = #{map.name}
+			</if>
+			<if test="map.path!=null">
+				AND path = #{map.path}
+			</if>
+			<if test="map.size!=null">
+				AND size = #{map.size}
+			</if>
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>
+			<if test="map.updaterId!=null">
+				AND updater_id = #{map.updaterId}
+			</if>
+			<if test="map.updaterName!=null">
+				AND updater_name = #{map.updaterName}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+			<if test="map.updateDate!=null">
+				AND update_date = sysdate()
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="Artifact">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_artifact
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>
+			<if test="map.actType!=null">
+				AND act_type = #{map.actType}
+			</if>
+			<if test="map.name!=null">
+				AND name = #{map.name}
+			</if>
+			<if test="map.path!=null">
+				AND path = #{map.path}
+			</if>
+			<if test="map.size!=null">
+				AND size = #{map.size}
+			</if>
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>
+			<if test="map.updaterId!=null">
+				AND updater_id = #{map.updaterId}
+			</if>
+			<if test="map.updaterName!=null">
+				AND updater_name = #{map.updaterName}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+			<if test="map.updateDate!=null">
+				AND update_date = sysdate()
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_noah_artifact
+        <include refid="Query_condition" />
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_noah_artifact
+	</select>
+
+</mapper>
+

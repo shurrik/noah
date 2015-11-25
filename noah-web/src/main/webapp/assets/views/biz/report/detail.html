@@ -1,0 +1,46 @@
+
+<!-- start: FEATURED BOX LINKS -->
+<div class="container-fluid container-fullw bg-white" ng-controller="ReportDetailCtrl">
+    <form class="form-inline">
+        <input type="hidden" name="repId" ng-model="repId" value="{{repId}}">
+        <div class="form-group">
+            <label>
+                年份
+            </label>
+            <select class="form-control" name="month" ng-model="year">
+                <option value="">&nbsp;</option>
+                <option  ng-repeat="year in [2015]" value="{{year}}">{{year}}</option>
+            </select>
+        </div>
+            <div class="form-group">
+                <label>
+                    月份
+                </label>
+                <select class="form-control" name="month" ng-model="month">
+                    <option value="">&nbsp;</option>
+                    <option  ng-repeat="month in [1,2,3,4,5,6,7,8,9,10,11,12]" value="{{month}}">{{month}}</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" type="submit" ng-click="queryReport()">
+                查询
+            </button>
+    </form>
+
+
+    <!-- start: BAR CHART -->
+    <div class="container-fluid container-fullw">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">
+                    <div>
+                        <div class="col-sm-6">
+                            <canvas class="tc-chart" tc-chartjs-bar chart-options="options" chart-data="data" chart-legend="lineChart2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end: BAR CHART -->
+</div>
+<!-- end: FEATURED BOX LINKS -->

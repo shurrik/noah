@@ -1,0 +1,143 @@
+<div ng-controller="hostCtrl">
+<!-- start: PAGE TITLE -->
+<section id="page-title">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1 class="mainTitle" translate="主机">{{ mainTitle }}</h1>
+            <span class="mainDescription">主机</span>
+        </div>
+        <div ncy-breadcrumb></div>
+    </div>
+</section>
+<!-- end: PAGE TITLE -->
+
+<!-- start: INLINE EDIT EXAMPLE -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <form role="form" class="form-inline">
+                <div class="form-group">IP：<input type="text"  class="form-control" ng-model="queryMap.ip"></div>						    			
+                <div class="form-group">主机名：<input type="text"  class="form-control" ng-model="queryMap.name"></div>						    			
+                <div class="form-group">用户：<input type="text"  class="form-control" ng-model="queryMap.user"></div>						    			
+                <div class="form-group">密码：<input type="text"  class="form-control" ng-model="queryMap.password"></div>						    			
+                <div class="form-group">备注：<input type="text"  class="form-control" ng-model="queryMap.remark"></div>						    			
+                <div class="form-group">是否执行节点：<input type="text"  class="form-control" ng-model="queryMap.taskerFlag"></div>						    			
+                <div class="form-group">创建人ID：<input type="text"  class="form-control" ng-model="queryMap.createrId"></div>						    			
+                <div class="form-group">创建人名：<input type="text"  class="form-control" ng-model="queryMap.createrName"></div>						    			
+                <div class="form-group">更新人ID：<input type="text"  class="form-control" ng-model="queryMap.updaterId"></div>						    			
+                <div class="form-group">更新人名：<input type="text"  class="form-control" ng-model="queryMap.updaterName"></div>						    			
+                <div class="form-group">创建时间：<input type="text"  class="form-control" ng-model="queryMap.createDate"></div>						    			
+                <div class="form-group">更新时间：<input type="text"  class="form-control" ng-model="queryMap.updateDate"></div>						    			
+                <button class="btn btn-primary" type="button" ng-click="query()">查询</button>
+                <button class="btn btn-green" type="button" ng-click="add()">新增</button>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <div>
+                 <div class="table-responsive">
+                    <table ng-table="tableParams" class="table">
+                        <tbody ng-repeat="p in $data">
+                        <tr id="tr{{p.id}}" ng-class-odd="'odd'" ng-class-even="'even'">
+			                <td class="rowTd" data-title="'IP'"  sortable="'ip'">{{p.ip}}</td>						    			
+			                <td class="rowTd" data-title="'主机名'"  sortable="'name'">{{p.name}}</td>						    			
+			                <td class="rowTd" data-title="'用户'"  sortable="'user'">{{p.user}}</td>						    			
+			                <td class="rowTd" data-title="'密码'"  sortable="'password'">{{p.password}}</td>						    			
+			                <td class="rowTd" data-title="'备注'"  sortable="'remark'">{{p.remark}}</td>						    			
+			                <td class="rowTd" data-title="'是否执行节点'"  sortable="'taskerFlag'">{{p.taskerFlag}}</td>						    			
+			                <td class="rowTd" data-title="'创建人ID'"  sortable="'createrId'">{{p.createrId}}</td>						    			
+			                <td class="rowTd" data-title="'创建人名'"  sortable="'createrName'">{{p.createrName}}</td>						    			
+			                <td class="rowTd" data-title="'更新人ID'"  sortable="'updaterId'">{{p.updaterId}}</td>						    			
+			                <td class="rowTd" data-title="'更新人名'"  sortable="'updaterName'">{{p.updaterName}}</td>						    			
+			                <td class="rowTd" data-title="'创建时间'"  sortable="'createDate'">{{p.createDate}}</td>						    			
+			                <td class="rowTd" data-title="'更新时间'"  sortable="'updateDate'">{{p.updateDate}}</td>						    			
+                            <td class="rowTd" >
+                                <div class="pull-right margin-right-10">
+                                <input type=button class="btn btn-primary  btn-sm" id="editRowBtn{{p.id}}" value="编辑"
+                                       ng-click="setEditId(p.id)">
+                                <input type=button class="btn btn-red  btn-sm"  value="删除"
+                                       ng-click="delEditId(p.id)">
+                                 </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <pagination total-items="records" ng-model="queryMap.pageCurrent" max-size="10" class="pagination-sm" boundary-links="true" rotate="false"
+                                items-per-page="queryMap.pageSize" ng-change="pageChanged()" previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页"></pagination>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="edit.html">
+    <div class="modal-header">
+        <h3 class="modal-title">编辑</h3>
+    </div>
+    <div class="modal-body">
+        <div class="panel ">
+            <div class="panel-body">
+                <form role="form">
+                    <input type="hidden"  ng-model="host.id" value="{{host.id}}">
+                    <div class="form-group">
+                        <label for="ip">IP</label>
+                        <input type="text" class="form-control" id="ip" ng-model="host.ip" value="{{host.ip}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="name">主机名</label>
+                        <input type="text" class="form-control" id="name" ng-model="host.name" value="{{host.name}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="user">用户</label>
+                        <input type="text" class="form-control" id="user" ng-model="host.user" value="{{host.user}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="text" class="form-control" id="password" ng-model="host.password" value="{{host.password}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="remark">备注</label>
+                        <input type="text" class="form-control" id="remark" ng-model="host.remark" value="{{host.remark}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="taskerFlag">是否执行节点</label>
+                        <input type="text" class="form-control" id="taskerFlag" ng-model="host.taskerFlag" value="{{host.taskerFlag}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createrId">创建人ID</label>
+                        <input type="text" class="form-control" id="createrId" ng-model="host.createrId" value="{{host.createrId}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createrName">创建人名</label>
+                        <input type="text" class="form-control" id="createrName" ng-model="host.createrName" value="{{host.createrName}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updaterId">更新人ID</label>
+                        <input type="text" class="form-control" id="updaterId" ng-model="host.updaterId" value="{{host.updaterId}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updaterName">更新人名</label>
+                        <input type="text" class="form-control" id="updaterName" ng-model="host.updaterName" value="{{host.updaterName}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createDate">创建时间</label>
+                        <input type="text" class="form-control" id="createDate" ng-model="host.createDate" value="{{host.createDate}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updateDate">更新时间</label>
+                        <input type="text" class="form-control" id="updateDate" ng-model="host.updateDate" value="{{host.updateDate}}">
+                    </div>			                						    			
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok($event)">确定</button>
+        <button class="btn btn-red" ng-click="cancel($event)">取消</button>
+    </div>
+</script>
+</div>
+<!-- end: INLINE EDIT EXAMPLE -->

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.eden.noah.dao.IStepCommandDAO">
+
+    <sql id="Base_Column_List">
+      id,
+	  step_id stepId,
+	  cmd_id cmdId,
+	  creater_id createrId,
+	  creater_name createrName,
+	  create_date createDate
+    </sql>
+    
+    <sql id="Query_condition">
+      <trim prefix="WHERE" prefixOverrides="AND | OR">
+              <if test="condition.stepId!=null">
+			  	AND step_id Like '%${condition.stepId}%'
+			  </if>
+              <if test="condition.cmdId!=null">
+			  	AND cmd_id Like '%${condition.cmdId}%'
+			  </if>
+              <if test="condition.createrId!=null">
+			  	AND creater_id Like '%${condition.createrId}%'
+			  </if>
+              <if test="condition.createrName!=null">
+			  	AND creater_name Like '%${condition.createrName}%'
+			  </if>
+              <if test="condition.createDate!=null">
+			  	AND create_date Like '%${condition.createDate}%'
+			  </if>
+        </trim>
+    </sql>
+    
+    <insert id="insert" parameterType="StepCommand">
+        INSERT INTO t_noah_stepcommand (
+	        id,
+		    step_id,
+		    cmd_id,
+		    creater_id,
+		    creater_name,
+		    create_date
+        ) VALUES (
+         	#{id},
+       		#{stepId},
+       		#{cmdId},
+       		#{createrId},
+       		#{createrName},
+       		sysdate()
+        )
+    </insert>
+
+    <!-- 更新 -->
+   	<update id="update" parameterType="StepCommand">
+        UPDATE t_noah_stepcommand
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="stepId!=null">
+           step_id=#{stepId},
+          </if>
+          <if test="cmdId!=null">
+           cmd_id=#{cmdId},
+          </if>
+          <if test="createrId!=null">
+           creater_id=#{createrId},
+          </if>
+          <if test="createrName!=null">
+           creater_name=#{createrName},
+          </if>
+          <if test="createDate!=null">
+           create_date=sysdate(),
+          </if>
+        </trim>
+        WHERE
+        id =#{id}
+    </update>
+
+   	<update id="updateMap">
+        UPDATE t_noah_stepcommand
+        <trim prefix="SET" suffixOverrides=",">
+          <if test="map.stepId!=null">        
+           step_id=#{map.stepId},
+          </if>
+          <if test="map.cmdId!=null">        
+           cmd_id=#{map.cmdId},
+          </if>
+          <if test="map.createrId!=null">        
+           creater_id=#{map.createrId},
+          </if>
+          <if test="map.createrName!=null">        
+           creater_name=#{map.createrName},
+          </if>
+          <if test="map.createDate!=null">        
+           create_date=sysdate(),
+          </if>
+        </trim>
+        WHERE
+       id = #{ map.id }
+	</update>
+
+
+     <insert id="insertMap" >
+        INSERT INTO t_noah_stepcommand (
+             	id,
+			 	step_id,
+			 	cmd_id,
+			 	creater_id,
+			 	creater_name,
+			 	create_date,
+        ) VALUES (
+              	#{map.id},
+		    	#{map.stepId},
+		    	#{map.cmdId},
+		    	#{map.createrId},
+		    	#{map.createrName},
+		    	sysdate(),
+        )
+    </insert>
+
+
+  	<update id="updateNull" parameterType="StepCommand">
+        UPDATE t_noah_stepcommand
+        <trim prefix="SET" suffixOverrides=","> 
+			    step_id=#{stepId},
+			    cmd_id=#{cmdId},
+			    creater_id=#{createrId},
+			    creater_name=#{createrName},
+			    create_date=sysdate(),
+        </trim>
+        WHERE
+        id =#{id}
+    </update>
+
+   	<delete id="deleteById" parameterType="java.lang.Integer">
+        DELETE FROM t_noah_stepcommand
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id=#{id}
+        </trim>
+    </delete>
+
+
+ 	<delete id="deleteByCondition" parameterType="java.util.Map">
+        DELETE FROM  t_noah_stepcommand 
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>				        
+			<if test="map.stepId!=null">
+				AND step_id = #{map.stepId}
+			</if>				
+			<if test="map.cmdId!=null">
+				AND cmd_id = #{map.cmdId}
+			</if>				
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>				
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>				
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>				
+        </trim>
+    </delete>
+
+    <delete id="deleteByProperty" parameterType="java.util.Map">
+        DELETE FROM t_noah_stepcommand WHERE
+        ${property}=#{value}
+    </delete>
+
+    <select id="fetch" parameterType="java.lang.Integer" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            AND id =#{id}
+        </trim>
+    </select>
+
+    <select id="findOne" parameterType="java.util.Map" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand WHERE
+        ${property}=#{value} 
+        LIMIT 0,1
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand WHERE
+       	${property} =#{value}
+    </select>
+
+    <select id="findAll" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+    </select>
+
+    <select id="queryPage" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+        <include refid="Query_condition" />    
+        <if test="condition.sort != null">
+			order by ${condition.sort}
+		</if>
+        <if test="offset != null">
+            limit ${offset}, ${rows}
+        </if>
+    </select>
+
+    <select id="like" parameterType="java.util.Map" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id!=null">
+				AND id like '%#{id}%'
+			</if>
+			<if test="stepId!=null">
+				AND step_id Like '%$ {condition.stepId}%'
+			</if>
+			<if test="cmdId!=null">
+				AND cmd_id Like '%$ {condition.cmdId}%'
+			</if>
+			<if test="createrId!=null">
+				AND creater_id Like '%$ {condition.createrId}%'
+			</if>
+			<if test="createrName!=null">
+				AND creater_name Like '%$ {condition.createrName}%'
+			</if>
+			<if test="createDate!=null">
+				AND create_date Like '%$ {condition.createDate}%'
+			</if>
+        </trim>
+    </select>
+
+
+ 	<select id="queryList" parameterType="java.util.Map" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>
+			<if test="map.stepId!=null">
+				AND step_id = #{map.stepId}
+			</if>
+			<if test="map.cmdId!=null">
+				AND cmd_id = #{map.cmdId}
+			</if>
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+        </trim>
+        ORDER BY ${orderBy} ${sortBy}
+    </select>
+
+   	<select id="queryOne" parameterType="java.util.Map" resultType="StepCommand">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM t_noah_stepcommand
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="map.id!=null">
+                AND id = #{map.id}
+            </if>
+			<if test="map.stepId!=null">
+				AND step_id = #{map.stepId}
+			</if>
+			<if test="map.cmdId!=null">
+				AND cmd_id = #{map.cmdId}
+			</if>
+			<if test="map.createrId!=null">
+				AND creater_id = #{map.createrId}
+			</if>
+			<if test="map.createrName!=null">
+				AND creater_name = #{map.createrName}
+			</if>
+			<if test="map.createDate!=null">
+				AND create_date = sysdate()
+			</if>
+        </trim>
+        limit 0,1
+    </select>
+
+  	<select id="count" resultType="java.lang.Integer">
+        SELECT count(id) FROM t_noah_stepcommand
+        <include refid="Query_condition" />
+    </select>
+
+	<select id="selectMaxId" resultType="java.lang.Integer">
+	    SELECT
+	    MAX(id)
+	    FROM t_noah_stepcommand
+	</select>
+
+</mapper>
+

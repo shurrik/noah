@@ -1,0 +1,131 @@
+<div ng-controller="artifactCtrl">
+<!-- start: PAGE TITLE -->
+<section id="page-title">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1 class="mainTitle" translate="构件">{{ mainTitle }}</h1>
+            <span class="mainDescription">构件</span>
+        </div>
+        <div ncy-breadcrumb></div>
+    </div>
+</section>
+<!-- end: PAGE TITLE -->
+
+<!-- start: INLINE EDIT EXAMPLE -->
+<div class="container-fluid container-fullw">
+    <div class="row">
+        <div class="col-md-12">
+            <form role="form" class="form-inline">
+                <div class="form-group">构件类型：<input type="text"  class="form-control" ng-model="queryMap.actType"></div>						    			
+                <div class="form-group">名称：<input type="text"  class="form-control" ng-model="queryMap.name"></div>						    			
+                <div class="form-group">路径：<input type="text"  class="form-control" ng-model="queryMap.path"></div>						    			
+                <div class="form-group">文件大小：<input type="text"  class="form-control" ng-model="queryMap.size"></div>						    			
+                <div class="form-group">创建人ID：<input type="text"  class="form-control" ng-model="queryMap.createrId"></div>						    			
+                <div class="form-group">创建人名：<input type="text"  class="form-control" ng-model="queryMap.createrName"></div>						    			
+                <div class="form-group">更新人ID：<input type="text"  class="form-control" ng-model="queryMap.updaterId"></div>						    			
+                <div class="form-group">更新人名：<input type="text"  class="form-control" ng-model="queryMap.updaterName"></div>						    			
+                <div class="form-group">创建时间：<input type="text"  class="form-control" ng-model="queryMap.createDate"></div>						    			
+                <div class="form-group">更新时间：<input type="text"  class="form-control" ng-model="queryMap.updateDate"></div>						    			
+                <button class="btn btn-primary" type="button" ng-click="query()">查询</button>
+                <button class="btn btn-green" type="button" ng-click="add()">新增</button>
+            </form>
+        </div>
+        <div class="col-md-12">
+            <div>
+                 <div class="table-responsive">
+                    <table ng-table="tableParams" class="table">
+                        <tbody ng-repeat="p in $data">
+                        <tr id="tr{{p.id}}" ng-class-odd="'odd'" ng-class-even="'even'">
+			                <td class="rowTd" data-title="'构件类型'"  sortable="'actType'">{{p.actType}}</td>						    			
+			                <td class="rowTd" data-title="'名称'"  sortable="'name'">{{p.name}}</td>						    			
+			                <td class="rowTd" data-title="'路径'"  sortable="'path'">{{p.path}}</td>						    			
+			                <td class="rowTd" data-title="'文件大小'"  sortable="'size'">{{p.size}}</td>						    			
+			                <td class="rowTd" data-title="'创建人ID'"  sortable="'createrId'">{{p.createrId}}</td>						    			
+			                <td class="rowTd" data-title="'创建人名'"  sortable="'createrName'">{{p.createrName}}</td>						    			
+			                <td class="rowTd" data-title="'更新人ID'"  sortable="'updaterId'">{{p.updaterId}}</td>						    			
+			                <td class="rowTd" data-title="'更新人名'"  sortable="'updaterName'">{{p.updaterName}}</td>						    			
+			                <td class="rowTd" data-title="'创建时间'"  sortable="'createDate'">{{p.createDate}}</td>						    			
+			                <td class="rowTd" data-title="'更新时间'"  sortable="'updateDate'">{{p.updateDate}}</td>						    			
+                            <td class="rowTd" >
+                                <div class="pull-right margin-right-10">
+                                <input type=button class="btn btn-primary  btn-sm" id="editRowBtn{{p.id}}" value="编辑"
+                                       ng-click="setEditId(p.id)">
+                                <input type=button class="btn btn-red  btn-sm"  value="删除"
+                                       ng-click="delEditId(p.id)">
+                                 </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pull-right">
+                    <pagination total-items="records" ng-model="queryMap.pageCurrent" max-size="10" class="pagination-sm" boundary-links="true" rotate="false"
+                                items-per-page="queryMap.pageSize" ng-change="pageChanged()" previous-text="上一页" next-text="下一页" first-text="首页" last-text="末页"></pagination>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="edit.html">
+    <div class="modal-header">
+        <h3 class="modal-title">编辑</h3>
+    </div>
+    <div class="modal-body">
+        <div class="panel ">
+            <div class="panel-body">
+                <form role="form">
+                    <input type="hidden"  ng-model="artifact.id" value="{{artifact.id}}">
+                    <div class="form-group">
+                        <label for="actType">构件类型</label>
+                        <input type="text" class="form-control" id="actType" ng-model="artifact.actType" value="{{artifact.actType}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="name">名称</label>
+                        <input type="text" class="form-control" id="name" ng-model="artifact.name" value="{{artifact.name}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="path">路径</label>
+                        <input type="text" class="form-control" id="path" ng-model="artifact.path" value="{{artifact.path}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="size">文件大小</label>
+                        <input type="text" class="form-control" id="size" ng-model="artifact.size" value="{{artifact.size}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createrId">创建人ID</label>
+                        <input type="text" class="form-control" id="createrId" ng-model="artifact.createrId" value="{{artifact.createrId}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createrName">创建人名</label>
+                        <input type="text" class="form-control" id="createrName" ng-model="artifact.createrName" value="{{artifact.createrName}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updaterId">更新人ID</label>
+                        <input type="text" class="form-control" id="updaterId" ng-model="artifact.updaterId" value="{{artifact.updaterId}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updaterName">更新人名</label>
+                        <input type="text" class="form-control" id="updaterName" ng-model="artifact.updaterName" value="{{artifact.updaterName}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="createDate">创建时间</label>
+                        <input type="text" class="form-control" id="createDate" ng-model="artifact.createDate" value="{{artifact.createDate}}">
+                    </div>			                						    			
+                    <div class="form-group">
+                        <label for="updateDate">更新时间</label>
+                        <input type="text" class="form-control" id="updateDate" ng-model="artifact.updateDate" value="{{artifact.updateDate}}">
+                    </div>			                						    			
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok($event)">确定</button>
+        <button class="btn btn-red" ng-click="cancel($event)">取消</button>
+    </div>
+</script>
+</div>
+<!-- end: INLINE EDIT EXAMPLE -->

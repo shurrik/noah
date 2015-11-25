@@ -1,0 +1,56 @@
+<!-- start: PAGE TITLE -->
+<section id="page-title">
+    <div class="row">
+        <div class="col-sm-8">
+            <!--<h1 class="mainTitle" translate="sidebar.nav.pages.BLANKPAGE">{{ mainTitle }}</h1>-->
+            <h1 class="mainTitle">报表分析</h1>
+            <!--<span class="mainDescription">标题</span>-->
+        </div>
+        <div ncy-breadcrumb></div>
+    </div>
+</section>
+<!-- end: PAGE TITLE -->
+<!-- start: FEATURED BOX LINKS -->
+<div class="container-fluid container-fullw bg-white" ng-controller="ReportCtrl">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="margin-bottom-30">
+                <button class="btn btn-primary btn-o btn-wide" ng-click="addReport()">
+                    <i class="ti-plus"></i>创建报表
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-sm-4" ng-repeat="report in reports ">
+            <div class="panel panel-white no-radius text-center">
+                <div class="panel-body">
+
+                    <h2 class="StepTitle">{{ report.name}}</h2>
+                    <p class="text-small">
+                        {{ report.remark}}
+                    </p>
+                    <p class="links cl-effect-1">
+                        <a ui-sref="app.report.detail({reportId:report.id})">
+                            更多
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="asideContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">ngAside</h3>
+    </div>
+    <div class="modal-body">
+        Look i'm in aside.
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok($event)">OK</button>
+        <button class="btn btn-primary" ng-click="cancel($event)">Cancel</button>
+    </div>
+</script>
+<!-- end: FEATURED BOX LINKS -->

@@ -1,0 +1,379 @@
+<!-- start: PAGE TITLE -->
+<section id="page-title">
+    <div class="row">
+        <div class="col-sm-8">
+            <h1 class="mainTitle">报表创建</h1>
+            <span class="mainDescription">配置</span>
+        </div>
+        <div ncy-breadcrumb></div>
+    </div>
+</section>
+<!-- end: PAGE TITLE -->
+<!-- start: WIZARD DEMO -->
+<div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <!--<h5 class="over-title margin-bottom-15">Wizard <span class="text-bold">demo</span></h5>-->
+            <!--<p>-->
+                <!--Some textboxes in this example is required.-->
+            <!--</p>-->
+            <!-- /// controller:  'WizardCtrl' -  localtion: assets/js/controllers/wizardCtrl.js /// -->
+            <div ng-controller="ReportCreateCtrl">
+                <!-- start: WIZARD FORM -->
+                <form name="Form" id="form" novalidate>
+                    <div id="wizard" class="swMain">
+                        <!-- start: WIZARD SEPS -->
+                        <ul>
+                            <li ng-click="form.goTo(Form, 1)">
+                                <a href ng-class="{'selected' : currentStep >= 1, 'done' : currentStep > 1}">
+                                    <div class="stepNumber">
+                                        1
+                                    </div>
+                                    <span class="stepDesc text-small"> 数据库与表 </span>
+                                </a>
+                            </li>
+                            <li ng-click="form.goTo(Form, 2)">
+                                <a href ng-class="{'selected' : currentStep >= 2, 'done' : currentStep > 2}">
+                                    <div class="stepNumber">
+                                        2
+                                    </div>
+                                    <span class="stepDesc text-small"> 指标字段 </span>
+                                </a>
+                            </li>
+                            <li ng-click="form.goTo(Form, 3)">
+                                <a href ng-class="{'selected' : currentStep >= 3, 'done' : currentStep > 3}">
+                                    <div class="stepNumber">
+                                        3
+                                    </div>
+                                    <span class="stepDesc text-small"> 时间字段 </span>
+                                </a>
+                            </li>
+                            <li ng-click="form.goTo(Form, 4)">
+                                <a href ng-class="{'selected' : currentStep >= 4, 'done' : currentStep > 4}">
+                                    <div class="stepNumber">
+                                        4
+                                    </div>
+                                    <span class="stepDesc text-small"> 完成 </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <!-- end: WIZARD SEPS -->
+                        <!-- start: WIZARD STEP 1 -->
+                        <div id="step-1" ng-show="currentStep == 1">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="padding-30">
+                                        <h2 class="StepTitle"><i class="ti-face-smile fa-2x text-primary block margin-bottom-10"></i> 数据库与表</h2>
+                                        <p>
+                                            数据库与表选择
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <fieldset>
+                                        <legend>
+                                            数据库与表
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group" ng-class="{'has-error':Form.reportName.$dirty && Form.reportName.$invalid, 'has-success':Form.reportName.$valid}">
+                                                    <label>
+                                                       报表名称 <span class="symbol required"></span>
+                                                    </label>
+                                                    <input type="text" placeholder="输入报表名称" class="form-control" name="reportName" ng-model="myModel.reportName" ng-required="currentStep == 1"/>
+                                                    <span class="error text-small block" ng-if="Form.reportName.$dirty && Form.reportName.$invalid">报表名称必填</span>
+                                                    <span class="success text-small" ng-if="Form.reportName.$valid">OK!</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group" ng-class="{'has-error':Form.reportRemark.$dirty && Form.reportRemark.$invalid, 'has-success':Form.reportRemark.$valid}">
+                                                    <label class="control-label">
+                                                        备注 <span class="symbol required"></span>
+                                                    </label>
+                                                    <input type="text" placeholder="输入报表备注" class="form-control" name="reportRemark" ng-model="myModel.reportRemark" ng-required="currentStep == 1" />
+                                                    <span class="error text-small block" ng-if="Form.reportRemark.$dirty && Form.reportRemark.$invalid">报表备注必填</span>
+                                                    <span class="success text-small" ng-if="Form.reportRemark.$valid">OK!</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        数据库
+                                                    </label>
+                                                    <select class="form-control" name="database" ng-model="myModel.database" ng-change="dbChange()">
+                                                        <option value="">&nbsp;</option>
+                                                        <option ng-repeat="db in databases" value="{{db.id}}" >{{db.dbName}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        表
+                                                    </label>
+                                                    <select multiple="multiple" class="form-control" name="table" ng-model="myModel.table">
+                                                        <option ng-repeat="tb in tableNames" value="{{tb}}">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-o next-step btn-wide pull-right" ng-click="form.next(Form)">
+                                            下一步 <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: WIZARD STEP 1 -->
+                        <!-- start: WIZARD STEP 2 -->
+                        <div id="step-2" ng-show="currentStep == 2">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="padding-30">
+                                        <h2 class="StepTitle">指标字段<span class="text-large block">指标字段及表关联字段</span></h2>
+                                        <p>
+                                            指标字段及表关联字段
+                                        </p>
+                                        <p class="text-small">
+                                        <ul class="no-margin">
+                                            <li>
+                                                指标X轴、Y轴字段
+                                            </li>
+                                            <li>
+                                                表关联字段
+                                            </li>
+                                        </ul>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <fieldset>
+                                        <legend>
+                                            指标字段
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        x轴表
+                                                    </label>
+                                                    <select class="form-control" name="tableX" ng-model="myModel.tableX" >
+                                                        <option ng-repeat="tb in myModel.table" value="{{tb}}" ng-click="tbChange(1,'{{tb}}')">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        x轴
+                                                    </label>
+                                                    <select class="form-control" name="indexX" ng-model="myModel.indexX">
+                                                        <option ng-repeat="col in cols1" value="{{col.columnname}}">{{col.columnname}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        y轴表
+                                                    </label>
+                                                    <select class="form-control" name="tableY" ng-model="myModel.tableY">
+                                                        <option ng-repeat="tb in myModel.table" value="{{tb}}" ng-click="tbChange(2,'{{tb}}')">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        y轴
+                                                    </label>
+                                                    <select class="form-control" name="indexY" ng-model="myModel.indexY">
+                                                        <option ng-repeat="col in cols2" value="{{col.columnname}}">{{col.columnname}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        指标函数
+                                                    </label>
+                                                    <select class="form-control" name="table" ng-model="myModel.func">
+                                                        <option value="count">count</option>
+                                                        <option value="sum">sum</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        表名A
+                                                    </label>
+                                                    <select class="form-control" name="tbNameL" ng-model="queryJoin.tbNameL" ng>
+                                                        <option ng-repeat="tb in myModel.table" value="{{tb}}" ng-click="tbChange(3,'{{tb}}')">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        列A
+                                                    </label>
+                                                    <select class="form-control" name="colL" ng-model="queryJoin.colL">
+                                                        <option ng-repeat="col in cols3" value="{{col.columnname}}">{{col.columnname}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        表名B
+                                                    </label>
+                                                    <select class="form-control" name="tbNameR" ng-model="queryJoin.tbNameR">
+                                                        <option ng-repeat="tb in myModel.table" value="{{tb}}" ng-click="tbChange(4,'{{tb}}')">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label>
+                                                        列B
+                                                    </label>
+                                                    <select class="form-control" name="colR" ng-model="queryJoin.colR">
+                                                        <option ng-repeat="col in cols4" value="{{col.columnname}}">{{col.columnname}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <button class="btn btn-default btn-sm" ng-click="addItem()">
+                                                            Add Item
+                                                        </button>
+                                                        <div ng-repeat="item in items">
+                                                            {{item.tbNameL}}.{{item.colL}} = {{item.tbNameR}}.{{item.colR}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!--<div class="col-md-6">-->
+                                                <!--<div class="form-group">-->
+                                                    <!--<label>-->
+                                                        <!--指标函数-->
+                                                    <!--</label>-->
+                                                    <!--<select class="form-control" name="table" ng-model="myModel.func">-->
+                                                        <!--<option value="count">count</option>-->
+                                                        <!--<option value="sum">sum</option>-->
+                                                    <!--</select>-->
+                                                <!--</div>-->
+                                            <!--</div>-->
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-o back-step btn-wide pull-left" ng-click="form.prev(Form)">
+                                            <i class="fa fa-circle-arrow-left"></i> Back
+                                        </button>
+                                        <button class="btn btn-primary btn-o next-step btn-wide pull-right" ng-click="form.next(Form)">
+                                            Next <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: WIZARD STEP 2 -->
+                        <!-- start: WIZARD STEP 3 -->
+                        <div id="step-3" ng-show="currentStep == 3">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="padding-30">
+                                        <h2 class="StepTitle">时间字段</h2>
+                                        <p class="text-large">
+                                            用于每月定时任务报表指标计算的周期字段
+                                        </p>
+                                        <!--<p class="text-small">-->
+                                            <!--You can use most major credit card, as well as PayPal.-->
+                                        <!--</p>-->
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <fieldset>
+                                        <legend>
+                                            时间字段
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        表
+                                                    </label>
+                                                    <select  class="form-control" name="timeTable" ng-model="myModel.timeTable">
+                                                        <option ng-repeat="tb in myModel.table" value="{{tb}}" ng-click="tbChange(5,'{{tb}}')">{{tb}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>
+                                                        字段
+                                                    </label>
+                                                    <select class="form-control" name="timeCol" ng-model="myModel.timeCol">
+                                                        <option ng-repeat="col in cols5" value="{{col.columnname}}">{{col.columnname}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-o back-step btn-wide pull-left" ng-click="form.prev(Form)">
+                                            <i class="fa fa-circle-arrow-left"></i> Back
+                                        </button>
+                                        <button class="btn btn-primary btn-o next-step btn-wide pull-right" ng-click="form.next(Form)">
+                                            Next <i class="fa fa-arrow-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: WIZARD STEP 3 -->
+                        <!-- start: WIZARD STEP 4 -->
+                        <div id="step-4"  ng-show="currentStep == 4">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="text-center">
+                                        <h1 class=" ti-check block text-primary"></h1>
+                                        <h2 class="StepTitle">配置成功!</h2>
+                                        <!--<p class="text-large">-->
+                                            <!--Your tutorial is complete.-->
+                                        <!--</p>-->
+                                        <!--<p class="text-small">-->
+                                            <!--Thank you for your registration. Your transaction has been completed, and a receipt for your purchase has been emailed to you.  You may log into your account to view details of this transaction.-->
+                                        <!--</p>-->
+                                        <!--<a class="btn btn-primary btn-o" href ng-click="form.goTo(Form, 1)">-->
+                                            <!--返回第一步-->
+                                        <!--</a>-->
+                                        <a class="btn btn-primary btn-o" href ng-click="submit()">
+                                            提交
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- end: WIZARD STEP 4 -->
+                    </div>
+                    <pre class="code margin-top-20">{{ myModel | json }}</pre>
+                </form>
+                <!-- end: WIZARD FORM -->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- start: WIZARD DEMO -->
+

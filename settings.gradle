@@ -1,0 +1,9 @@
+rootProject.name = 'noah'
+
+
+include 'noah-common'
+include 'noah-biz'
+include 'noah-web'
+include 'noah-domain'
+include 'noah-jdbc'
+
